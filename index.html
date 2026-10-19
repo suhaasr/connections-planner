@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connections Planner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Connections Planner</h1>
+      <p class="subtitle">Plan every group before you submit a single guess.</p>
+    </header>
+
+    <section id="setup" class="setup" hidden>
+      <label for="word-input">Enter the 16 words (one per line, or comma-separated):</label>
+      <textarea id="word-input" rows="8" spellcheck="false"></textarea>
+      <p id="setup-error" class="error" role="alert"></p>
+      <div class="setup-actions">
+        <button id="start-btn" class="primary">Start planning</button>
+        <button id="sample-btn">Load sample</button>
+        <button id="cancel-btn">Cancel</button>
+      </div>
+    </section>
+
+    <section id="planner" class="planner" hidden>
+      <div class="toolbar">
+        <div class="priority-toggle">
+          <span id="label-easy" class="toggle-label">easy-first</span>
+          <button id="priority-switch" class="switch" role="switch" aria-checked="false"
+                  aria-label="Priority order: hard-first">
+            <span class="knob"></span>
+          </button>
+          <span id="label-hard" class="toggle-label">hard-first</span>
+        </div>
+      </div>
+
+      <div id="grid" class="grid" aria-label="Word grid"></div>
+
+      <div class="actions">
+        <button id="shuffle-btn">Shuffle</button>
+        <button id="clear-btn">Deselect all</button>
+        <button id="edit-btn">Edit words</button>
+      </div>
+
+      <div id="categories" class="categories"></div>
+    </section>
+  </main>
+
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

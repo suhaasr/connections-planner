@@ -1,0 +1,9 @@
+{
+  "name": "connections-planner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plan all of your NYT Connections moves ahead of time",
+  "scripts": {
+    "test": "node --test test/logic.test.js"
+  }
+}
