@@ -62,7 +62,7 @@ test("visible categories follow the priority toggle", () => {
 
 test("shuffle keeps selected tiles in place", () => {
   const s = fresh();
-  L.moveTile(s, 0, 5);
+  L.swapTiles(s, 0, 5);
   [3, 7, 12].forEach((id) => L.toggleTile(s, id));
   const before = s.order.slice();
   let seed = 1;
@@ -77,11 +77,12 @@ test("shuffle keeps selected tiles in place", () => {
   assert.notDeepEqual(s.order, before);
 });
 
-test("moveTile reorders by insertion", () => {
+test("swapTiles swaps two positions and leaves the rest in place", () => {
   const s = fresh();
-  L.moveTile(s, 0, 3);
-  assert.deepEqual(s.order.slice(0, 4), [1, 2, 3, 0]);
-  L.moveTile(s, 3, 0);
+  L.swapTiles(s, 0, 3);
+  assert.deepEqual(s.order.slice(0, 4), [3, 1, 2, 0]);
+  assert.deepEqual(s.order.slice(4), WORDS.slice(4).map((_, i) => i + 4));
+  L.swapTiles(s, 3, 0);
   assert.deepEqual(s.order.slice(0, 4), [0, 1, 2, 3]);
 });
 
@@ -125,7 +126,7 @@ test("locked tiles can still be moved", () => {
   const s = fresh();
   for (let i = 0; i < 4; i++) L.toggleTile(s, i);
   L.toggleLock(s, "yellow");
-  L.moveTile(s, 0, 15);
+  L.swapTiles(s, 0, 15);
   assert.equal(s.order[15], 0);
   assert.equal(L.isLocked(s, 0), true);
 });

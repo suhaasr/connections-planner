@@ -195,7 +195,7 @@ function renderGrid() {
     tile.addEventListener("drop", (e) => {
       e.preventDefault();
       if (dragFromIndex === null) return;
-      L.moveTile(state, dragFromIndex, index);
+      L.swapTiles(state, dragFromIndex, index);
       dragFromIndex = null;
       saveState();
       render();

@@ -100,10 +100,9 @@
     });
     return state2;
   }
-  function moveTile(state2, fromIndex, toIndex) {
+  function swapTiles(state2, fromIndex, toIndex) {
     if (fromIndex === toIndex) return state2;
-    const [id] = state2.order.splice(fromIndex, 1);
-    state2.order.splice(toIndex, 0, id);
+    [state2.order[fromIndex], state2.order[toIndex]] = [state2.order[toIndex], state2.order[fromIndex]];
     return state2;
   }
 
@@ -282,7 +281,7 @@
       tile.addEventListener("drop", (e) => {
         e.preventDefault();
         if (dragFromIndex === null) return;
-        moveTile(state2, dragFromIndex, index);
+        swapTiles(state2, dragFromIndex, index);
         dragFromIndex = null;
         saveState();
         render();

@@ -139,9 +139,8 @@ export function shuffleUnselected(state: State, random: () => number = Math.rand
   return state;
 }
 
-export function moveTile(state: State, fromIndex: number, toIndex: number): State {
+export function swapTiles(state: State, fromIndex: number, toIndex: number): State {
   if (fromIndex === toIndex) return state;
-  const [id] = state.order.splice(fromIndex, 1);
-  state.order.splice(toIndex, 0, id);
+  [state.order[fromIndex], state.order[toIndex]] = [state.order[toIndex], state.order[fromIndex]];
   return state;
 }
