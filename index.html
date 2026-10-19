@@ -5,12 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Connections Planner</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem("connections-planner-theme"); } catch (_) {}
+      if (theme !== "dark" && theme !== "light") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
 </head>
 <body>
   <main>
     <header>
       <h1>Connections Planner</h1>
       <p class="subtitle">Plan every group before you submit a single guess.</p>
+      <button id="theme-toggle" class="theme-toggle" aria-pressed="false">Dark mode</button>
     </header>
 
     <section id="setup" class="setup" hidden>

@@ -26,6 +26,7 @@ Your current puzzle, groups and category names are saved in the browser's local 
 - **Reorder**: drag a word onto another tile to move it there.
 - **Shuffle**: shuffles only the words that aren't selected. Selected words stay where they are.
 - **Deselect all**: clears every group but keeps your category names.
+- **Dark mode**: the button in the top-right corner switches between light and dark themes. Until you click it, the app follows your system theme. After that it remembers your choice.
 
 ## Development
 

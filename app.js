@@ -3,6 +3,7 @@
 
   const L = window.PlannerLogic;
   const STORAGE_KEY = "connections-planner-state-v1";
+  const THEME_KEY = "connections-planner-theme";
   const SAMPLE_WORDS = [
     "BASS", "PIANO", "MOUSE", "DRUM",
     "SOLE", "LOCK", "MONITOR", "ORGAN",
@@ -204,6 +205,22 @@
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) startFromInput();
   });
 
+  const themeToggle = el("theme-toggle");
+
+  function renderTheme() {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    themeToggle.textContent = dark ? "Light mode" : "Dark mode";
+    themeToggle.setAttribute("aria-pressed", String(dark));
+  }
+
+  themeToggle.addEventListener("click", () => {
+    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (_) { /* storage unavailable */ }
+    renderTheme();
+  });
+
+  renderTheme();
   buildCategoryRows();
   if (state) showPlanner();
   else showSetup();
