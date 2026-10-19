@@ -1,6 +1,6 @@
-const test = require("node:test");
-const assert = require("node:assert/strict");
-const L = require("../logic.js");
+import test from "node:test";
+import assert from "node:assert/strict";
+import * as L from "../src/logic.ts";
 
 const WORDS = Array.from({ length: 16 }, (_, i) => "W" + i);
 

@@ -31,17 +31,19 @@ Your current puzzle, groups and category names are saved in the browser's local 
 
 ## Development
 
-The app is plain HTML/CSS/JS with no dependencies:
+The app is written in TypeScript. The compiled bundle, `dist/app.js`, is committed, so you only need Node.js (22.18+) if you want to change the code.
 
 - `index.html`: markup
 - `style.css`: styles
-- `logic.js`: state logic with no DOM code (selection priority, shuffle, reordering)
-- `app.js`: rendering and event handling
+- `src/logic.ts`: state logic with no DOM code (selection priority, locking, shuffle, reordering)
+- `src/app.ts`: rendering and event handling
+- `test/logic.test.ts`: tests for the logic
+- `dist/app.js`: build output that `index.html` loads
 
-It uses classic `<script>` tags rather than ES modules, because browsers block modules loaded from `file://` URLs.
-
-Run the logic tests with Node 18+:
+`npm run build` type-checks the code with `tsc` and bundles it with esbuild into a single classic script (an IIFE, not an ES module), because browsers block ES modules loaded from `file://` URLs. Rebuild and commit `dist/app.js` whenever you change anything in `src/`.
 
 ```sh
-npm test
+npm install
+npm run build   # type-check and bundle into dist/app.js
+npm test        # run the logic tests (Node runs the .ts files directly)
 ```

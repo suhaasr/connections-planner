@@ -3,7 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "description": "Plan all of your NYT Connections moves ahead of time",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
   "scripts": {
-    "test": "node --test test/logic.test.js"
+    "build": "tsc && esbuild src/app.ts --bundle --format=iife --target=es2020 --outfile=dist/app.js",
+    "typecheck": "tsc",
+    "test": "node --test test/logic.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3"
   }
 }
