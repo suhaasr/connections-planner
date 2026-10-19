@@ -63,6 +63,10 @@
     return !!color && isGroupLocked(state, color);
   }
 
+  function anyLocked(state) {
+    return COLORS.some((color) => isGroupLocked(state, color));
+  }
+
   function canLock(state, color) {
     return state.groups[color].length === GROUP_SIZE;
   }
@@ -142,6 +146,7 @@
     toggleTile,
     isGroupLocked,
     isLocked,
+    anyLocked,
     canLock,
     toggleLock,
     clearSelections,

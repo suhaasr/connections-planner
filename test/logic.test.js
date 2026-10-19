@@ -129,3 +129,13 @@ test("locked tiles can still be moved", () => {
   assert.equal(s.order[15], 0);
   assert.equal(L.isLocked(s, 0), true);
 });
+
+test("anyLocked reflects lock state", () => {
+  const s = fresh();
+  assert.equal(L.anyLocked(s), false);
+  for (let i = 0; i < 4; i++) L.toggleTile(s, i);
+  L.toggleLock(s, "yellow");
+  assert.equal(L.anyLocked(s), true);
+  L.toggleLock(s, "yellow");
+  assert.equal(L.anyLocked(s), false);
+});

@@ -23,10 +23,10 @@ Your current puzzle, groups and category names are saved in the browser's local 
   The active label is black and the inactive one is light grey.
 - **Deselect**: click a highlighted word to remove it from its group. The next word you click goes into the highest-priority group that has fewer than four words, so a gap you open gets filled first.
 - **Name categories**: when a group gets its first word, a box in that color appears below the grid so you can write down your guess for the category. The box stays even if you later deselect every word in that group. The boxes are listed in the current priority order.
-- **Lock groups**: once a group has all four words, click the padlock next to its category box to lock it. You can't deselect a locked group's words, and **Deselect all** skips them. Locked tiles get a bold border but can still be dragged. Click the padlock again to unlock.
+- **Lock groups**: once a group has all four words, click the padlock next to its category box to lock it. You can't deselect a locked group's words, and **Deselect all** is disabled while any group is locked. Locked tiles get a bold border but can still be dragged. Click the padlock again to unlock.
 - **Reorder**: drag a word onto another tile to move it there.
 - **Shuffle**: shuffles only the words that aren't selected. Selected words stay where they are.
-- **Deselect all**: clears every unlocked group but keeps your category names.
+- **Deselect all**: clears every group but keeps your category names. It's disabled while any group is locked.
 - **Dark mode**: the button in the top-right corner switches between light and dark themes. Until you click it, the app follows your system theme. After that it remembers your choice.
 
 ## Development

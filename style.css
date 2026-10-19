@@ -78,6 +78,11 @@ button {
   cursor: pointer;
 }
 button:hover { background: var(--button-hover); }
+button[aria-disabled="true"], button[aria-disabled="true"]:hover {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--button-bg);
+}
 button.primary { background: var(--primary-bg); color: var(--primary-text); }
 button.primary:hover { background: var(--primary-hover); }
 

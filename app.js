@@ -87,7 +87,17 @@
     }
   }
 
+  const clearBtn = el("clear-btn");
+  const CLEAR_LOCKED_MSG = "You can't deselect all while a category is locked. Unlock it first.";
+
+  function renderClearButton() {
+    const locked = L.anyLocked(state);
+    clearBtn.setAttribute("aria-disabled", String(locked));
+    clearBtn.title = locked ? CLEAR_LOCKED_MSG : "";
+  }
+
   function render() {
+    renderClearButton();
     renderToggle();
     renderCategories();
     renderGrid();
@@ -220,7 +230,8 @@
     saveState();
     render();
   });
-  el("clear-btn").addEventListener("click", () => {
+  clearBtn.addEventListener("click", () => {
+    if (L.anyLocked(state)) return;
     L.clearSelections(state);
     saveState();
     render();
