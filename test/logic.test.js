@@ -88,3 +88,44 @@ test("moveTile reorders by insertion", () => {
 test("parseWords accepts newlines and commas", () => {
   assert.deepEqual(L.parseWords(" a, b\n\nc ,d\r\n"), ["a", "b", "c", "d"]);
 });
+
+test("only full groups can be locked", () => {
+  const s = fresh();
+  for (let i = 0; i < 3; i++) L.toggleTile(s, i);
+  L.toggleLock(s, "yellow");
+  assert.equal(L.isGroupLocked(s, "yellow"), false);
+  L.toggleTile(s, 3);
+  L.toggleLock(s, "yellow");
+  assert.equal(L.isGroupLocked(s, "yellow"), true);
+  L.toggleLock(s, "yellow");
+  assert.equal(L.isGroupLocked(s, "yellow"), false);
+});
+
+test("locked words cannot be deselected", () => {
+  const s = fresh();
+  for (let i = 0; i < 4; i++) L.toggleTile(s, i);
+  L.toggleLock(s, "yellow");
+  L.toggleTile(s, 2);
+  assert.deepEqual(s.groups.yellow, [0, 1, 2, 3]);
+  assert.equal(L.isLocked(s, 2), true);
+  L.toggleTile(s, 5);
+  assert.deepEqual(s.groups.green, [5]);
+});
+
+test("deselect all keeps locked groups", () => {
+  const s = fresh();
+  for (let i = 0; i < 6; i++) L.toggleTile(s, i);
+  L.toggleLock(s, "yellow");
+  L.clearSelections(s);
+  assert.deepEqual(s.groups.yellow, [0, 1, 2, 3]);
+  assert.deepEqual(s.groups.green, []);
+});
+
+test("locked tiles can still be moved", () => {
+  const s = fresh();
+  for (let i = 0; i < 4; i++) L.toggleTile(s, i);
+  L.toggleLock(s, "yellow");
+  L.moveTile(s, 0, 15);
+  assert.equal(s.order[15], 0);
+  assert.equal(L.isLocked(s, 0), true);
+});

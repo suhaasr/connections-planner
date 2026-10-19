@@ -19,7 +19,7 @@
 
   function emptyCategories() {
     const categories = {};
-    for (const color of COLORS) categories[color] = { shown: false, name: "" };
+    for (const color of COLORS) categories[color] = { shown: false, name: "", locked: false };
     return categories;
   }
 
@@ -54,8 +54,28 @@
     return null;
   }
 
+  function isGroupLocked(state, color) {
+    return !!state.categories[color].locked;
+  }
+
+  function isLocked(state, id) {
+    const color = groupOf(state, id);
+    return !!color && isGroupLocked(state, color);
+  }
+
+  function canLock(state, color) {
+    return state.groups[color].length === GROUP_SIZE;
+  }
+
+  function toggleLock(state, color) {
+    if (isGroupLocked(state, color)) state.categories[color].locked = false;
+    else if (canLock(state, color)) state.categories[color].locked = true;
+    return state;
+  }
+
   function toggleTile(state, id) {
     const current = groupOf(state, id);
+    if (current && isGroupLocked(state, current)) return state;
     if (current) {
       state.groups[current] = state.groups[current].filter((t) => t !== id);
       return state;
@@ -68,7 +88,9 @@
   }
 
   function clearSelections(state) {
-    state.groups = emptyGroups();
+    for (const color of COLORS) {
+      if (!isGroupLocked(state, color)) state.groups[color] = [];
+    }
     return state;
   }
 
@@ -118,6 +140,10 @@
     groupOf,
     nextGroup,
     toggleTile,
+    isGroupLocked,
+    isLocked,
+    canLock,
+    toggleLock,
     clearSelections,
     setHardFirst,
     visibleCategories,

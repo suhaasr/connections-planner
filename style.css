@@ -129,8 +129,8 @@ button.primary:hover { background: var(--primary-hover); }
 .categories { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
 .category {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
   padding: 10px 12px;
   border-radius: 8px;
 }
@@ -149,6 +149,17 @@ button.primary:hover { background: var(--primary-hover); }
   outline: none;
 }
 .category input::placeholder { color: rgba(0, 0, 0, 0.45); text-transform: none; font-weight: 500; }
+.category-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lock-btn, .lock-btn:hover {
+  display: flex;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #000;
+}
+.lock-btn:hover:not(:disabled) { background: rgba(0, 0, 0, 0.12); }
+.lock-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .category .members { font-size: 14px; min-height: 1.2em; }
 .category .count { font-weight: 600; margin-right: 6px; }
 
@@ -187,6 +198,7 @@ button.primary:hover { background: var(--primary-hover); }
 .tile.green, .tile.green:hover { background: var(--green); }
 .tile.blue, .tile.blue:hover { background: var(--blue); }
 .tile.purple, .tile.purple:hover { background: var(--purple); }
+.tile.locked { box-shadow: inset 0 0 0 4px var(--text); }
 .tile.dragging { opacity: 0.4; }
 .tile.drop-target { outline: 3px dashed var(--border); outline-offset: 2px; }
 

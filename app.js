@@ -11,6 +11,12 @@
     "CARP", "KEYBOARD", "WEBCAM", "TUBA",
   ];
   const COLOR_NAMES = { yellow: "Yellow", green: "Green", blue: "Blue", purple: "Purple" };
+  const SVG_ATTRS = 'viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+  const LOCK_ICON = '<svg ' + SVG_ATTRS + '><rect x="4" y="11" width="16" height="10" rx="2"/>' +
+    '<path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  const UNLOCK_ICON = '<svg ' + SVG_ATTRS + '><rect x="4" y="11" width="16" height="10" rx="2"/>' +
+    '<path d="M8 11V7a4 4 0 0 1 7.75-1.4"/></svg>';
 
   const el = (id) => document.getElementById(id);
   const setupSection = el("setup");
@@ -62,9 +68,22 @@
       const members = document.createElement("div");
       members.className = "members";
 
-      row.append(input, members);
+      const body = document.createElement("div");
+      body.className = "category-body";
+      body.append(input, members);
+
+      const lockBtn = document.createElement("button");
+      lockBtn.type = "button";
+      lockBtn.className = "lock-btn";
+      lockBtn.addEventListener("click", () => {
+        L.toggleLock(state, color);
+        saveState();
+        render();
+      });
+
+      row.append(body, lockBtn);
       categoriesEl.appendChild(row);
-      categoryRows[color] = { row, input, members };
+      categoryRows[color] = { row, input, members, lockBtn };
     }
   }
 
@@ -83,8 +102,20 @@
   function renderCategories() {
     const visible = L.visibleCategories(state);
     for (const color of L.COLORS) {
-      const { row, input, members } = categoryRows[color];
+      const { row, input, members, lockBtn } = categoryRows[color];
       row.hidden = !visible.includes(color);
+      const locked = L.isGroupLocked(state, color);
+      row.classList.toggle("locked", locked);
+      lockBtn.innerHTML = locked ? LOCK_ICON : UNLOCK_ICON;
+      lockBtn.disabled = !locked && !L.canLock(state, color);
+      lockBtn.setAttribute("aria-pressed", String(locked));
+      const lockLabel = locked
+        ? "Unlock " + COLOR_NAMES[color] + " group"
+        : L.canLock(state, color)
+          ? "Lock " + COLOR_NAMES[color] + " group"
+          : "Add " + L.GROUP_SIZE + " words to lock this group";
+      lockBtn.setAttribute("aria-label", lockLabel);
+      lockBtn.title = lockLabel;
       if (input.value !== state.categories[color].name) input.value = state.categories[color].name;
       const words = state.groups[color].map((id) => state.tiles[id].text);
       members.innerHTML = "";
@@ -101,7 +132,7 @@
     state.order.forEach((id, index) => {
       const tile = document.createElement("button");
       const color = L.groupOf(state, id);
-      tile.className = "tile" + (color ? " " + color : "");
+      tile.className = "tile" + (color ? " " + color : "") + (L.isLocked(state, id) ? " locked" : "");
       tile.textContent = state.tiles[id].text;
       tile.draggable = true;
       tile.dataset.index = String(index);
